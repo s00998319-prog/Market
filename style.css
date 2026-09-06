@@ -1,0 +1,644 @@
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  color: #ffffff;
+  background: #ffffff;
+}
+
+
+/* ========================================
+   MAIN APPLICATION
+   ======================================== */
+
+.app-shell {
+  position: relative;
+
+  width: 100%;
+  max-width: 580px;
+  min-height: 100vh;
+
+  margin: 0 auto;
+
+  overflow-x: hidden;
+
+  background-color: #ed1c2b;
+
+  /*
+    Red overlay + background pattern.
+    25% red overlay allows roughly 75%
+    of the pattern to remain visible.
+  */
+  background-image:
+    linear-gradient(
+      rgba(237, 28, 43, 0.50),
+      rgba(237, 28, 43, 0.50)
+    ),
+    url("./background.png");
+
+  background-repeat: repeat;
+  background-size: 180px 180px;
+  background-position: top left;
+}
+
+
+button,
+input {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+/* ========================================
+   TOP NAVIGATION
+   ======================================== */
+
+.topbar {
+  height: 64px;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  position: relative;
+
+  background: #ffffff;
+
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.16);
+
+  z-index: 5;
+}
+
+
+/* Back Button */
+
+.back-button {
+  width: 48px;
+  height: 48px;
+
+  margin-left: 8px;
+
+  border: 0;
+  padding: 0;
+
+  background: transparent;
+  color: #222222;
+
+  font-size: 39px;
+  line-height: 1;
+  font-weight: 300;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* Center Logo */
+
+.topbar-logo {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 29px;
+  height: 29px;
+
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.topbar-logo-mark {
+  width: 29px;
+  height: 29px;
+
+  /* border-radius: 50%; */
+
+  /* background: #ea212d; */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+}
+
+.topbar-logo-mark img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: contain;
+}
+
+
+/* ========================================
+   MAIN CONTENT
+   ======================================== */
+
+.auth-screen {
+  min-height: calc(100vh - 64px);
+
+  display: flex;
+  justify-content: center;
+
+  padding: 32px 18px 18px;
+}
+
+.login-content {
+  width: 100%;
+  max-width: 440px;
+
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+
+  min-height: calc(100vh - 64px - 50px);
+}
+
+
+/* ========================================
+   LOGIN TITLE
+   ======================================== */
+
+.login-title {
+  margin: 0 0 10px;
+
+  color: #ffffff;
+
+  font-size: 17px;
+  line-height: 24px;
+
+  font-weight: 500;
+}
+
+
+/* ========================================
+   ACCOUNT BRAND
+   ======================================== */
+
+.account-brand {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto 28px;
+
+  color: #ffffff;
+}
+
+.account-brand img {
+  display: block;
+
+  width: 195px;
+  max-width: 75%;
+
+  height: auto;
+}
+
+
+/* ========================================
+   FORM
+   ======================================== */
+
+#loginForm {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  flex: 1;
+
+  min-height: 0;
+}
+
+
+/* ========================================
+   INPUTS
+   ======================================== */
+
+.field-block {
+  width: 100%;
+  height: 58px;
+
+  margin-bottom: 8px;
+}
+
+.field-block input {
+  width: 100%;
+  height: 58px;
+
+  display: block;
+
+  border: 0;
+
+  border-bottom:
+    1px solid
+    rgba(255, 255, 255, 0.9);
+
+  border-radius: 0;
+
+  outline: none;
+
+  background: transparent;
+
+  color: #ffffff;
+
+  padding:
+    0
+    48px
+    0
+    4px;
+
+  font-size: 16px;
+  line-height: 58px;
+
+  text-align: left;
+}
+
+.field-block input::placeholder {
+  color: rgba(255, 255, 255, 0.9);
+
+  opacity: 1;
+
+  text-align: left;
+}
+
+.field-block input:focus {
+  border-bottom-color: #ffffff;
+
+  background: transparent;
+}
+
+
+/* ========================================
+   PIN FIELD
+   ======================================== */
+
+.pin-wrapper {
+  position: relative;
+}
+
+.pin-wrapper input {
+  padding-right: 58px;
+}
+
+.pin-toggle {
+  position: absolute;
+
+  right: 0;
+  bottom: 0;
+
+  width: 58px;
+  height: 58px;
+
+  border: 0;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* Eye Icon */
+
+.eye-icon {
+  width: 19px;
+  height: 13px;
+
+  border:
+    1.7px solid
+    #ffffff;
+
+  border-radius: 70% 30%;
+
+  transform: rotate(-35deg);
+
+  position: relative;
+
+  display: block;
+}
+
+.eye-icon::after {
+  content: "";
+
+  position: absolute;
+
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+
+  left: 5px;
+  top: 2px;
+}
+
+
+/* ========================================
+   HELPER LINKS
+   ======================================== */
+
+.action-link {
+  display: block;
+
+  width: 100%;
+
+  margin: 0 0 18px;
+
+  color: #ffd400;
+
+  font-size: 14px;
+  line-height: 20px;
+
+  font-weight: 500;
+
+  text-align: right;
+
+  text-decoration: underline;
+
+  text-underline-offset: 2px;
+}
+
+.action-link:hover {
+  color: #ffe45c;
+}
+
+.forgot-pin {
+  margin-bottom: 0;
+}
+
+
+/* ========================================
+   BUTTONS
+   ======================================== */
+
+.button-stack {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+
+  /*
+    Push buttons toward the bottom
+    of the available screen.
+  */
+  margin-top: auto;
+}
+
+.primary-button,
+.secondary-button {
+  width: 100%;
+
+  min-height: 56px;
+
+  border-radius: 7px;
+
+  cursor: pointer;
+
+  font-size: 16px;
+
+  font-weight: 700;
+}
+
+
+/* Login */
+
+.primary-button {
+  border: 1px solid #ea212d;
+
+  background: #ffffff;
+
+  color: #ea212d;
+}
+
+.primary-button:hover {
+  background: #f7f7f7;
+}
+
+
+/* Register */
+
+.secondary-button {
+  border: 1px solid #ffffff;
+
+  background: transparent;
+
+  color: #ffffff;
+}
+
+.secondary-button:hover {
+  background: rgba(255, 255, 255, 0.10);
+}
+
+
+/* ========================================
+   TERMS AND CONDITIONS
+   ======================================== */
+
+.terms-text {
+  margin: 12px 0 0;
+
+  color: rgba(255, 255, 255, 0.9);
+
+  font-size: 12px;
+
+  line-height: 18px;
+
+  text-align: center;
+}
+
+.terms-text a {
+  color: #ffd400;
+
+  font-weight: 500;
+
+  text-decoration: underline;
+
+  text-underline-offset: 2px;
+}
+
+.terms-text a:hover {
+  color: #ffe45c;
+}
+
+
+/* ========================================
+   MESSAGE
+   ======================================== */
+
+.message {
+  min-height: 0;
+
+  margin: 6px 0 0;
+
+  color: #ffffff;
+
+  font-size: 13px;
+
+  line-height: 19px;
+}
+
+
+/* ========================================
+   MOBILE
+   ======================================== */
+
+@media (max-width: 520px) {
+
+  body {
+    background: #ed1c2b;
+  }
+
+  /*
+    Full-screen application on mobile.
+  */
+
+  .app-shell {
+    width: 100%;
+    max-width: none;
+
+    min-height: 100vh;
+
+    margin: 0;
+
+    background-color: #ed1c2b;
+
+    background-size: 180px 180px;
+  }
+
+
+  /* Main Content */
+
+  .auth-screen {
+    min-height: calc(100vh - 64px);
+
+    padding:
+      30px
+      18px
+      16px;
+  }
+
+  .login-content {
+    width: 100%;
+    max-width: none;
+
+    min-height:
+      calc(100vh - 64px - 46px);
+  }
+
+
+  /* Account Logo */
+
+  .account-brand {
+    margin-bottom: 24px;
+  }
+
+  .account-brand img {
+    width: 180px;
+    max-width: 70%;
+  }
+
+
+  /* Inputs */
+
+  .field-block,
+  .field-block input {
+    height: 58px;
+  }
+
+  .pin-toggle {
+    height: 58px;
+  }
+
+
+  /* Buttons */
+
+  .primary-button,
+  .secondary-button {
+    min-height: 54px;
+  }
+
+  .button-stack {
+    gap: 11px;
+  }
+
+
+  /* Terms */
+
+  .terms-text {
+    margin-top: 11px;
+  }
+}
+
+
+/* ========================================
+   SHORT MOBILE SCREENS
+   ======================================== */
+
+@media (max-height: 700px) {
+
+  .auth-screen {
+    padding-top: 20px;
+    padding-bottom: 12px;
+  }
+
+  .account-brand {
+    margin-bottom: 18px;
+  }
+
+  .action-link {
+    margin-bottom: 12px;
+  }
+
+  .button-stack {
+    gap: 8px;
+  }
+
+  .primary-button,
+  .secondary-button {
+    min-height: 50px;
+  }
+
+  .terms-text {
+    margin-top: 8px;
+  }
+}
