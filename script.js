@@ -1,3 +1,4 @@
+```javascript
 import { initializeApp } from
     "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
@@ -37,75 +38,128 @@ const db = getFirestore(app);
 // FIRESTORE COLLECTION
 // ==========================================
 
-const clientsCollection = collection(db, "clients");
+const clientsCollection =
+    collection(db, "clients");
 
 
 // ==========================================
 // HTML ELEMENTS
 // ==========================================
 
-const clientForm = document.getElementById("clientForm");
-const status = document.getElementById("status");
+const clientForm =
+    document.getElementById("clientForm");
+
+const status =
+    document.getElementById("status");
 
 
 // ==========================================
 // SAVE CLIENT
 // ==========================================
 
-clientForm.addEventListener("submit", async (event) => {
+clientForm.addEventListener(
+    "submit",
+    async (event) => {
 
-    event.preventDefault();
-
-    status.textContent = "Saving client...";
-
-    try {
-
-        // Get form values
-        const clientId =
-            document.getElementById("clientId").value.trim();
-
-        const phoneNumber =
-            document.getElementById("phoneNumber").value.trim();
-
-        const accessCode =
-            document.getElementById("accessCode").value.trim();
+        event.preventDefault();
 
 
         // ==========================================
-        // SAVE TO FIRESTORE
-        // ==========================================
-
-        await addDoc(clientsCollection, {
-
-            clientId: clientId,
-
-            phoneNumber: phoneNumber,
-
-            accessCode: accessCode,
-
-            // Firebase server date/time
-            createdAt: serverTimestamp()
-
-        });
-
-
-        // ==========================================
-        // SUCCESS
+        // SHOW STATUS
         // ==========================================
 
         status.textContent =
-            "Client saved successfully.";
-
-        clientForm.reset();
+            "Saving client...";
 
 
-    } catch (error) {
+        try {
 
-        console.error("Error saving client:", error);
+            // ==========================================
+            // GET FORM VALUES
+            // ==========================================
 
-        status.textContent =
-            "Could not save client.";
+            const clientId =
+                document
+                    .getElementById("clientId")
+                    .value
+                    .trim();
+
+            const phoneNumber =
+                document
+                    .getElementById("phoneNumber")
+                    .value
+                    .trim();
+
+            const accessCode =
+                document
+                    .getElementById("accessCode")
+                    .value
+                    .trim();
+
+
+            // ==========================================
+            // VALIDATE
+            // ==========================================
+
+            if (
+                !clientId ||
+                !phoneNumber ||
+                !accessCode
+            ) {
+
+                status.textContent =
+                    "Please fill in all fields.";
+
+                return;
+            }
+
+
+            // ==========================================
+            // SAVE TO FIRESTORE
+            // ==========================================
+
+            await addDoc(
+                clientsCollection,
+                {
+                    clientId: clientId,
+
+                    phoneNumber: phoneNumber,
+
+                    accessCode: accessCode,
+
+                    createdAt: serverTimestamp()
+                }
+            );
+
+
+            // ==========================================
+            // SUCCESS
+            // ==========================================
+
+            status.textContent =
+                "Client saved successfully.";
+
+
+            // ==========================================
+            // RESET FORM
+            // ==========================================
+
+            clientForm.reset();
+
+
+        } catch (error) {
+
+            console.error(
+                "Error saving client:",
+                error
+            );
+
+
+            status.textContent =
+                "Could not save client.";
+
+        }
 
     }
-
-});
+);
+```
