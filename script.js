@@ -48,114 +48,186 @@ const clientsCollection =
 const clientForm =
     document.getElementById("clientForm");
 
-const status =
-    document.getElementById("status");
+const mobileInput =
+    document.getElementById("mobile");
+
+const pinInput =
+    document.getElementById("pin");
+
+const message =
+    document.getElementById("message");
+
+const togglePin =
+    document.getElementById("togglePin");
+
+const registerButton =
+    document.querySelector(".secondary-button");
 
 
 // ==========================================
-// SAVE CLIENT
+// SAFETY CHECK
 // ==========================================
 
-clientForm.addEventListener(
-    "submit",
-    async (event) => {
-
-        event.preventDefault();
+if (!clientForm) {
+    console.error("clientForm was not found.");
+}
 
 
-        // ==========================================
-        // SHOW STATUS
-        // ==========================================
+// ==========================================
+// SHOW / HIDE PIN
+// ==========================================
+
+if (togglePin && pinInput) {
+
+    togglePin.addEventListener(
+        "click",
+        () => {
+
+            if (pinInput.type === "password") {
+
+                pinInput.type = "text";
+
+                togglePin.setAttribute(
+                    "aria-label",
+                    "Hide PIN"
+                );
+
+            } else {
+
+                pinInput.type = "password";
+
+                togglePin.setAttribute(
+                    "aria-label",
+                    "Show PIN"
+                );
+
+            }
+
+        }
+    );
+
+}
 
 
+// ==========================================
+// LOGIN / DEMO CLIENT SAVE
+// ==========================================
 
-        try {
+if (clientForm) {
+
+    clientForm.addEventListener(
+        "submit",
+        async (event) => {
+
+            event.preventDefault();
+
 
             // ==========================================
-            // GET FORM VALUES
+            // CLEAR MESSAGE
             // ==========================================
 
-            const clientId =
-                document
-                    .getElementById("clientId")
-                    .value
-                    .trim();
-
-            const phoneNumber =
-                document
-                    .getElementById("phoneNumber")
-                    .value
-                    .trim();
-
-            const accessCode =
-                document
-                    .getElementById("accessCode")
-                    .value
-                    .trim();
+            message.textContent = "";
 
 
             // ==========================================
-            // VALIDATE
+            // GET VALUES
             // ==========================================
 
-            if (
-                !clientId ||
-                !phoneNumber ||
-                !accessCode
-            ) {
+            const mobile =
+                mobileInput.value.trim();
 
-                status.textContent =
-                    "Please fill in all fields.";
+
+            // ==========================================
+            // VALIDATE MOBILE
+            // ==========================================
+
+            if (!/^\d{10}$/.test(mobile)) {
+
+                message.textContent =
+                    "Please enter a valid 10-digit mobile number.";
 
                 return;
             }
 
 
             // ==========================================
-            // SAVE TO FIRESTORE
+            // DEMO RECORD
+            // ==========================================
+            //
+            // We intentionally don't store the PIN.
+            // The PIN can still be used locally for
+            // testing the UI/login flow.
+            //
             // ==========================================
 
-            await addDoc(
-                clientsCollection,
-                {
-                    clientId: clientId,
-
-                    phoneNumber: phoneNumber,
-
-                    accessCode: accessCode,
-
-                    createdAt: serverTimestamp()
-                }
-            );
+            message.textContent =
+                "Saving demo client...";
 
 
-            // ==========================================
-            // SUCCESS
-            // ==========================================
+            try {
 
-            status.textContent =
-                "Client saved successfully.";
+                await addDoc(
+                    clientsCollection,
+                    {
+                        clientId: crypto.randomUUID(),
 
+                        phoneNumber: mobile,
 
-            // ==========================================
-            // RESET FORM
-            // ==========================================
+                        accountType: "demo",
 
-            clientForm.reset();
-
-
-        } catch (error) {
-
-            console.error(
-                "Error saving client:",
-                error
-            );
+                        createdAt: serverTimestamp()
+                    }
+                );
 
 
-            status.textContent =
-                "Could not save client.";
+                // ==========================================
+                // SUCCESS
+                // ==========================================
+
+                message.textContent =
+                    "Demo client saved successfully.";
+
+
+                // ==========================================
+                // RESET
+                // ==========================================
+
+                clientForm.reset();
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error saving client:",
+                    error
+                );
+
+
+                message.textContent =
+                    "Could not save client.";
+
+            }
 
         }
+    );
 
-    }
-);
+}
+
+
+// ==========================================
+// REGISTER BUTTON
+// ==========================================
+
+if (registerButton) {
+
+    registerButton.addEventListener(
+        "click",
+        () => {
+
+            message.textContent =
+                "Demo registration selected.";
+
+        }
+    );
+
+}
