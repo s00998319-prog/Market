@@ -67,8 +67,6 @@ clientForm.addEventListener(
         // SHOW STATUS
         // ==========================================
 
-        status.textContent =
-            "Saving client...";
 
 
         try {
