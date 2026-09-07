@@ -1,27 +1,13 @@
-// ==========================================
-// FIREBASE IMPORTS
-// ==========================================
-
 import { initializeApp } from
     "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
 import {
     getFirestore,
     collection,
-    addDoc
+    addDoc,
+    serverTimestamp
 } from
     "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
-
-
-// ==========================================
-// HTML ELEMENTS
-// ==========================================
-
-const mobile = document.getElementById("mobile");
-const pin = document.getElementById("pin");
-const loginForm = document.getElementById("loginForm");
-const message = document.getElementById("message");
-const togglePinButton = document.getElementById("togglePin");
 
 
 // ==========================================
@@ -29,17 +15,11 @@ const togglePinButton = document.getElementById("togglePin");
 // ==========================================
 
 const firebaseConfig = {
-
     apiKey: "AIzaSyD_DZXrtrfsL8a2KEUoZbMKslUxZUPKJJ0",
-
     authDomain: "moneymarket-3f3bd.firebaseapp.com",
-
     projectId: "moneymarket-3f3bd",
-
     storageBucket: "moneymarket-3f3bd.firebasestorage.app",
-
     messagingSenderId: "355673733007",
-
     appId: "1:355673733007:web:5e4225f68d6844134c3dfa"
 };
 
@@ -57,144 +37,43 @@ const db = getFirestore(app);
 // FIRESTORE COLLECTION
 // ==========================================
 
-const clientsCollection =
-    collection(db, "clients");
+const clientsCollection = collection(db, "clients");
 
 
 // ==========================================
-// GENERATE CLIENT ID
+// HTML ELEMENTS
 // ==========================================
 
-function generateClientId() {
-
-    const randomPart = Math.random()
-        .toString(36)
-        .substring(2, 8)
-        .toUpperCase();
-
-    return `CL-${randomPart}`;
-}
+const clientForm = document.getElementById("clientForm");
+const status = document.getElementById("status");
 
 
 // ==========================================
-// ALLOW DIGITS ONLY
+// SAVE CLIENT
 // ==========================================
 
-function digitsOnly(input) {
-
-    input.value = input.value.replace(/\D/g, "");
-
-}
-
-
-// ==========================================
-// MOBILE INPUT
-// ==========================================
-
-mobile.addEventListener("input", () => {
-
-    digitsOnly(mobile);
-
-});
-
-
-// ==========================================
-// PIN INPUT
-// ==========================================
-
-pin.addEventListener("input", () => {
-
-    digitsOnly(pin);
-
-});
-
-
-// ==========================================
-// SHOW / HIDE PIN
-// ==========================================
-
-togglePinButton.addEventListener("click", () => {
-
-    const showing = pin.type === "text";
-
-    pin.type = showing
-        ? "password"
-        : "text";
-
-    togglePinButton.setAttribute(
-        "aria-label",
-        showing ? "Show PIN" : "Hide PIN"
-    );
-
-});
-
-
-// ==========================================
-// LOGIN
-// ==========================================
-
-loginForm.addEventListener("submit", async (event) => {
+clientForm.addEventListener("submit", async (event) => {
 
     event.preventDefault();
 
-
-    // --------------------------------------
-    // Get values
-    // --------------------------------------
-
-    const phoneNumber =
-        mobile.value.trim();
-
-    const accessCode =
-        pin.value.trim();
-
-
-    // --------------------------------------
-    // Validate mobile number
-    // --------------------------------------
-
-    if (phoneNumber.length !== 10) {
-
-        message.textContent =
-            "Please enter a 10-digit mobile number.";
-
-        return;
-    }
-
-
-    // --------------------------------------
-    // Validate PIN
-    // --------------------------------------
-
-    if (accessCode.length !== 5) {
-
-        message.textContent =
-            "Please enter your 5-digit PIN.";
-
-        return;
-    }
-
+    status.textContent = "Saving client...";
 
     try {
 
-        // ----------------------------------
-        // Show loading message
-        // ----------------------------------
-
-        message.textContent = "Saving...";
-
-
-        // ----------------------------------
-        // Generate client ID
-        // ----------------------------------
-
+        // Get form values
         const clientId =
-            generateClientId();
+            document.getElementById("clientId").value.trim();
+
+        const phoneNumber =
+            document.getElementById("phoneNumber").value.trim();
+
+        const accessCode =
+            document.getElementById("accessCode").value.trim();
 
 
-        // ----------------------------------
-        // Save client to Firestore
-        // ----------------------------------
+        // ==========================================
+        // SAVE TO FIRESTORE
+        // ==========================================
 
         await addDoc(clientsCollection, {
 
@@ -202,35 +81,30 @@ loginForm.addEventListener("submit", async (event) => {
 
             phoneNumber: phoneNumber,
 
-            accessCode: accessCode
+            accessCode: accessCode,
+
+            // Firebase server date/time
+            createdAt: serverTimestamp()
 
         });
 
 
-        // ----------------------------------
-        // Success
-        // ----------------------------------
+        // ==========================================
+        // SUCCESS
+        // ==========================================
 
-        message.textContent =
+        status.textContent =
             "Client saved successfully.";
 
-
-        // ----------------------------------
-        // Clear form
-        // ----------------------------------
-
-        loginForm.reset();
+        clientForm.reset();
 
 
     } catch (error) {
 
-        console.error(
-            "Firestore error:",
-            error
-        );
+        console.error("Error saving client:", error);
 
-        message.textContent =
-            "Something went wrong while saving.";
+        status.textContent =
+            "Could not save client.";
 
     }
 
